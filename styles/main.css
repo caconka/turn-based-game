@@ -10,10 +10,6 @@ div#board {
   transform: rotateX(45deg);
 }
 
-#board .select {
-  background: tomato;
-}
-
 div.box-position {
   width: 3em;
   height: 3em;
@@ -24,29 +20,25 @@ div.box-position {
   border-radius: 5px;
 }
 
-section#char {
-  width: 150px;
-  height: 300px;
-  background: red;
-  display: none;
-}
-
-#char .characters {
+#board .character {
   width: 3em;
   height: 3em;
-  background: tomato;
-  margin: .1em;
+  margin-left: .3em;
   display: inline-block;
+  border: 1px solid #fff;
+  border-radius: 5px;
 }
 
-#hola {
-  background: #626262;
-  width: 100%;
-  height: 100%;
-  transition: none;
-  transform: none;
-  perspective: none;
-  perspective-origin: 50% 50%;
+#warrior1, #warrior2 {
+  background: #F87F69;
+}
+
+#archer1, #archer2 {
+  background: #75C358;
+}
+
+#healer1, #healer2 {
+  background: #3DD2BC;
 }
 
 button {
@@ -55,4 +47,23 @@ button {
 
 #restart {
   display: none;
+}
+
+section#char {
+  width: 163px;
+  height: 163px;
+  display: none;
+}
+
+#char .char {
+  width: 3em;
+  height: 3em;
+  background: tomato;
+  margin: .1em;
+  display: inline-block;
+}
+
+#char .selected {
+  background: #ccc;
+  cursor: not-allowed;
 }
