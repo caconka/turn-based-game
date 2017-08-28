@@ -1,19 +1,58 @@
-div.div1 {
-  width: 30%;
+div#container {
+  width: 38%;
   display: inline-block;
   padding: .5em;
   perspective: 70em;
-  margin: 1em;
+  margin: 3em;
 }
 
-div.div3 {
+div#board {
   transform: rotateX(45deg);
 }
 
-div.div2 {
+#board .select {
+  background: tomato;
+}
+
+div.box-position {
+  width: 3em;
+  height: 3em;
+  margin-left: .3em;
+  background: #ccc;
+  display: inline-block;
+  border: 1px solid rgba(0,0,0,.5);
+  border-radius: 5px;
+}
+
+section#char {
+  width: 150px;
+  height: 300px;
+  background: red;
+  display: none;
+}
+
+#char .characters {
   width: 3em;
   height: 3em;
   background: tomato;
+  margin: .1em;
   display: inline-block;
-  border: 1px solid rgba(0,0,0,.5);
+}
+
+#hola {
+  background: #626262;
+  width: 100%;
+  height: 100%;
+  transition: none;
+  transform: none;
+  perspective: none;
+  perspective-origin: 50% 50%;
+}
+
+button {
+
+}
+
+#restart {
+  display: none;
 }
