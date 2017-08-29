@@ -10,14 +10,19 @@ div#board {
   transform: rotateX(45deg);
 }
 
-div.box-position {
+#board .box-position {
   width: 3em;
   height: 3em;
   margin-left: .3em;
   background: #ccc;
   display: inline-block;
-  border: 1px solid rgba(0,0,0,.5);
+  border: 1px solid #888;
   border-radius: 5px;
+}
+
+#board .area {
+  border-color: #fff;
+  background: #F1F193;
 }
 
 #board .character {
@@ -47,23 +52,4 @@ button {
 
 #restart {
   display: none;
-}
-
-section#char {
-  width: 163px;
-  height: 163px;
-  display: none;
-}
-
-#char .char {
-  width: 3em;
-  height: 3em;
-  background: tomato;
-  margin: .1em;
-  display: inline-block;
-}
-
-#char .selected {
-  background: #ccc;
-  cursor: not-allowed;
 }

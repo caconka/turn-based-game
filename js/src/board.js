@@ -27,25 +27,16 @@ Board.prototype.renderBoard = function() {
   var that = this
   this.board.forEach(function(row, indY) {
     that.board[indY].forEach(function(col, indX) {
-      var char = $("<div>").attr("class", "character")
       switch (col) {
-        case 1:
-          $("#board").append($($(char)[0]).attr("id", "warrior1"))
-          break
-        case 2:
-          $("#board").append($($(char)[0]).attr("id", "archer1"))
-          break
-        case 3:
-          $("#board").append($($(char)[0]).attr("id", "healer1"))
-          break
-        case 4:
-          $("#board").append($($(char)[0]).attr("id", "warrior2"))
-          break
-        case 5:
-          $("#board").append($($(char)[0]).attr("id", "archer2"))
-          break
-        case 6:
-          $("#board").append($($(char)[0]).attr("id", "healer2"))
+        case 1: game.createDivCharacters(0,1); break;
+        case 2: game.createDivCharacters(1,1); break;
+        case 3: game.createDivCharacters(2,1); break;
+        case 4: game.createDivCharacters(0,2); break;
+        case 5: game.createDivCharacters(1,2); break;
+        case 6: game.createDivCharacters(2,2); break;
+        case 8: 
+          var area = $("<div>").attr("class", "box-position area")
+          $("#board").append($(area)[0])
           break
         default:
           var box = $("<div>").attr("class", "box-position")
@@ -56,6 +47,14 @@ Board.prototype.renderBoard = function() {
   })
 }
 
+Board.prototype.createDivCharacters = function(indexCharacter, player) {
+  var char = $("<div>").attr("class", "character")
+  if(player == 1) 
+    $("#board").append($($(char)[0]).attr("id", game.player1[indexCharacter]))
+  else if(player == 2) 
+    $("#board").append($($(char)[0]).attr("id", game.player2[indexCharacter]))
+}
+
 Board.prototype.events = function() {
   $(".character").on("click", function() {
     game.selectedChar = this
@@ -64,10 +63,10 @@ Board.prototype.events = function() {
     var y1 = parseInt(index.toString().split("")[0])
     var x1 = parseInt(index.toString().split("")[1])
     if(index.toString().length == 1) {
-      x1 = y1
-      y1 = 0
+      x1 = y1; y1 = 0
     }
-
+    game.renderArea(game.getIdChar(id), y1,x1)
+    
     $(".box-position").on("click", function() {
       var moveTo = $("#board div").index($(this))
       var y2 = parseInt(moveTo.toString().split("")[0])
@@ -76,46 +75,29 @@ Board.prototype.events = function() {
         x2 = y2
         y2 = 0
       }
-      if(game.getIdChar(id).canMove(y2,x2)) game.getIdChar(id).move(y1,x1,y2,x2)
+      if(game.getIdChar(id).canMove(y1,x1,moveTo)) 
+        game.getIdChar(id).move(y1,x1,y2,x2)
+    })
+
+    $(".character").on("click", function() {
+
     })
   })
 }
 
-Board.prototype.getIdChar = function(id) {
-  switch (id) {
-    case "warrior1":
-      return warrior1
-      break;
-    case "archer1":
-      return archer1
-      break;
-    case "healer1":
-      return healer1
-      break;
-    case "warrior2":
-      return warrior2
-      break;
-    case "archer2":
-      return archer2
-      break;
-    case "healer2":
-      return healer2
-      break;
-  }
+Board.prototype.renderArea = function(idChar, y1, x1) {
+  idChar.canMove(y1,x1)
 }
 
-//Board.prototype.selectCharacters = function(id) {
-//  if(this.player1.length !== 3 || this.player2 !== 3) {
-//    this.player1.length < 3 ? this.player1.push(id) : this.player2.push(id)
-//    this.renderCharacters(id)
-//    if(this.player2.length == 3) {
-//      $("#char").css("display", "none")
-//    }
-//  } 
-//}
-
-Board.prototype.positionChar = function(id) {
-  
+Board.prototype.getIdChar = function(id) {
+  switch (id) {
+    case "warrior1": return warrior1; break;
+    case "archer1": return archer1; break;
+    case "healer1": return healer1; break;
+    case "warrior2": return warrior2; break;
+    case "archer2": return archer2; break;
+    case "healer2": return healer2; break;
+  }
 }
 
 Board.prototype.isEmpty = function(position) {
