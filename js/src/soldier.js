@@ -1,10 +1,11 @@
-function Soldier(name, health, minAttack, maxAttack, x, y) {
+function Soldier(name, health, minAttack, maxAttack, x, y, area) {
   this.name = name 
   this.health = health
   this.minAttack = minAttack
   this.maxAttack = maxAttack
   this.posX = x
   this.posY = y
+  this.area = area
 }
 
 Soldier.prototype.attack = function() {
@@ -21,18 +22,15 @@ Soldier.prototype.isDead = function(health) {
   return health <= 0 ? true : false
 }
 
-Soldier.prototype.canMove = function(y, x) {
-
-  if (game.board[y][x] == 0) {
+Soldier.prototype.canMove = function(y2, x2) {
+  if (game.board[y2][x2] == 0) 
     return true
-  } else {
+  else
     false
-  }
 }
 
-Soldier.prototype.move = function(y, x, y1, x1) {
-  game.board[y1][x1] = game.board[y][x]
-  game.board[y][x] = 0
-  $("#board").children().remove()
-  game.renderBoard()
+Soldier.prototype.move = function(y1, x1, y2, x2) {
+  game.board[y2][x2] = game.board[y1][x1]
+  game.board[y1][x1] = 0
+  game.update()
 }

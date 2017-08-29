@@ -9,11 +9,18 @@ function Board() {
   ]
   this.player1 = ["warrior1", "archer1", "healer1"]
   this.player2 = ["warrior2", "archer2", "healer2"]
+  this.selectedChar = false
 }
 
 Board.prototype.startGame = function() {
   this.renderBoard()
-  //$("#char").css("display", "block")
+  this.events()
+}
+
+Board.prototype.update = function() {
+  $("#board").children().remove()
+  game.renderBoard()
+  game.events()
 }
 
 Board.prototype.renderBoard = function() {
@@ -49,8 +56,52 @@ Board.prototype.renderBoard = function() {
   })
 }
 
-Board.prototype.renderCharacters = function() {
+Board.prototype.events = function() {
+  $(".character").on("click", function() {
+    game.selectedChar = this
+    var id = $(this).attr("id")
+    var index = $("#board div").index($(this))
+    var y1 = parseInt(index.toString().split("")[0])
+    var x1 = parseInt(index.toString().split("")[1])
+    if(index.toString().length == 1) {
+      x1 = y1
+      y1 = 0
+    }
 
+    $(".box-position").on("click", function() {
+      var moveTo = $("#board div").index($(this))
+      var y2 = parseInt(moveTo.toString().split("")[0])
+      var x2 = parseInt(moveTo.toString().split("")[1])
+      if(moveTo.toString().length == 1) {
+        x2 = y2
+        y2 = 0
+      }
+      if(game.getIdChar(id).canMove(y2,x2)) game.getIdChar(id).move(y1,x1,y2,x2)
+    })
+  })
+}
+
+Board.prototype.getIdChar = function(id) {
+  switch (id) {
+    case "warrior1":
+      return warrior1
+      break;
+    case "archer1":
+      return archer1
+      break;
+    case "healer1":
+      return healer1
+      break;
+    case "warrior2":
+      return warrior2
+      break;
+    case "archer2":
+      return archer2
+      break;
+    case "healer2":
+      return healer2
+      break;
+  }
 }
 
 //Board.prototype.selectCharacters = function(id) {
