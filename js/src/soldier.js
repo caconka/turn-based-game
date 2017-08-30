@@ -1,4 +1,4 @@
-function Soldier(name, health, minAttack, maxAttack, x, y, area, team) {
+function Soldier(name, health, minAttack, maxAttack, y, x, area) {
   this.name = name 
   this.health = health
   this.minAttack = minAttack
@@ -6,7 +6,6 @@ function Soldier(name, health, minAttack, maxAttack, x, y, area, team) {
   this.posX = x
   this.posY = y
   this.area = area
-  this.team = team
 }
 
 Soldier.prototype.attack = function() {
@@ -22,19 +21,10 @@ Soldier.prototype.receiveDamage = function(damage) {
 Soldier.prototype.isDead = function(health) {
   return health <= 0 ? true : false
 }
-
-//Soldier.prototype.canMove = function(y1,x1,moveTo) {
-//  var n = parseInt(y1.toString() + x1.toString())
-//  var move = parseInt(moveTo)
-//  if(   (moveTo >= n-11 && moveTo <= n-9)
-//     || (moveTo >= n-2  && moveTo <= n+2)
-//     || (moveTo >= n+9  && moveTo <= n+11)) {
-//    return true
-//  }
-//}
+// ME QUEDO AQUÍ //
 Soldier.prototype.canMove = function(y1,x1) {
   for(var i=0; i<=this.area; i++) {
-    if(y1>=i) if(game.board[y1-i][x1] == 0) game.board[y1-i][x1] = 8
+    if(y1>=i) game.board[y1-i][x1] == 0 ? game.board[y1-i][x1] = 8 : game.getIdChar(y1-i,x1)
     if(y1+i<6) if(game.board[y1+i][x1] == 0) game.board[y1+i][x1] = 8
     if(x1>=i) if(game.board[y1][x1-i] == 0) game.board[y1][x1-i] = 8
     if(x1+i<10) if(game.board[y1][x1+i] == 0) game.board[y1][x1+i] = 8
@@ -43,14 +33,12 @@ Soldier.prototype.canMove = function(y1,x1) {
     if(y1>=i && x1+i<10) if(game.board[y1-i][x1+i] == 0) game.board[y1-i][x1+i] = 8
     if(x1>=i && y1+i<6) if(game.board[y1+i][x1-i] == 0) game.board[y1+i][x1-i] = 8
   }
-  return game.update()
 }
 
 Soldier.prototype.move = function(y1, x1, y2, x2) {
   game.board[y2][x2] = game.board[y1][x1]
   game.board[y1][x1] = 0
   this.updatePosition(y2,x2)
-  game.removePosibilityPositions()
 }
 
 Soldier.prototype.updatePosition = function(y2,x2) {

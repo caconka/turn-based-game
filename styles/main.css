@@ -1,7 +1,6 @@
 div#turn {
-  width: 3em;
-  height: 3em;
-  border: 1px solid #000;
+  width: 3.7em;
+  height: 3.2em;
   border-radius: 5px;
   display: none;
 }
@@ -33,7 +32,7 @@ div#board {
   background: #F1F193;
 }
 
-#board .character {
+.character {
   width: 3em;
   height: 3em;
   margin-left: .3em;
@@ -42,20 +41,28 @@ div#board {
   border-radius: 5px;
 }
 
-#warrior1, #warrior2 {
+.W1 {
   background: #F87F69;
 }
 
-#archer1, #archer2 {
+.W2 {
+  background: #F87F69;
+}
+
+.Ar1 {
   background: #75C358;
 }
 
-#healer1, #healer2 {
+.Ar2 {
+  background: #75C358;
+}
+
+.H1 {
   background: #3DD2BC;
 }
 
-button {
-
+.H2 {
+  background: #3DD2BC;
 }
 
 #restart {
