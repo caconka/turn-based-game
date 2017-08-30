@@ -12,15 +12,9 @@ function Board() {
   this.selectedChar = false
 }
 
-Board.prototype.startGame = function() {
-  this.renderBoard()
-  this.events()
-}
-
 Board.prototype.update = function() {
   $("#board").children().remove()
-  game.renderBoard()
-  game.events()
+  this.renderBoard(); this.events()
 }
 
 Board.prototype.renderBoard = function() {
@@ -47,6 +41,18 @@ Board.prototype.renderBoard = function() {
   })
 }
 
+Board.prototype.removePosibilityPositions = function() {
+  var that = this
+  this.board.forEach(function(row, indY) {
+    that.board[indY].forEach(function(col, indX) {
+      if(col == 8) {
+        that.board[indY][indX] = 0
+      }
+    })
+  })
+  this.update()
+}
+
 Board.prototype.createDivCharacters = function(indexCharacter, player) {
   var char = $("<div>").attr("class", "character")
   if(player == 1) 
@@ -65,9 +71,10 @@ Board.prototype.events = function() {
     if(index.toString().length == 1) {
       x1 = y1; y1 = 0
     }
+    game.removePosibilityPositions()
     game.renderArea(game.getIdChar(id), y1,x1)
     
-    $(".box-position").on("click", function() {
+    $(".area").on("click", function() {
       var moveTo = $("#board div").index($(this))
       var y2 = parseInt(moveTo.toString().split("")[0])
       var x2 = parseInt(moveTo.toString().split("")[1])
@@ -75,9 +82,9 @@ Board.prototype.events = function() {
         x2 = y2
         y2 = 0
       }
-      if(game.getIdChar(id).canMove(y1,x1,moveTo)) 
+      // if(game.getIdChar(id).canMove(y1,x1,moveTo)) 
         game.getIdChar(id).move(y1,x1,y2,x2)
-    })
+      })
 
     $(".character").on("click", function() {
 
@@ -110,8 +117,6 @@ Board.prototype.removeChar = function(character) {
 }
 
 Board.prototype.win = function() {
-  if(this.player1.length <= 0) 
-    console.log("player 2 wins")
-  else if(this.player2.length <= 0)
-    console.log("player 1 wins")
+  if(this.player1.length <= 0) console.log("player 2 wins")
+  else if(this.player2.length <= 0) console.log("player 1 wins")
 }
