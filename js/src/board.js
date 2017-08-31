@@ -10,6 +10,7 @@ function Board() {
   this.currentTurn = []
   this.count = 0
   this.attackPosition = []
+  this.buddyPosition = []
 }
 
 Board.prototype.start = function() {
@@ -23,7 +24,8 @@ Board.prototype.update = function() {
   $("#board").children().remove()
   this.removePosibilityPositions()
   this.renderCurrentTurn(); this.renderArea()
-  this.renderBoard(); this.renderAttackPos(); this.events()
+  this.renderBoard(); this.renderAttackPos(); this.renderBuddyPos(); 
+  this.events()
 }
 
 Board.prototype.renderArea = function() {
@@ -90,6 +92,13 @@ Board.prototype.events = function() {
     char.receiveDamage(game.currentTurn[game.count].attack(), y, x)
     return game.win() ? game.finish() : game.update()
   })
+
+  $(".heal-posible").on("click", function() {
+    var idSelector = $(this).attr("id")
+    var char = game.getCharObject(idSelector)
+    char.receiveHeal(game.currentTurn[game.count].attack())
+    return game.update()
+  })
 }
 
 Board.prototype.renderCurrentTurn = function() {
@@ -110,6 +119,7 @@ Board.prototype.removePosibilityPositions = function() {
     })
   })
   this.attackPosition = []
+  this.buddyPosition = []
 }
 
 Board.prototype.getCharObject = function(idSelector) {
@@ -127,15 +137,14 @@ Board.prototype.getCharObject = function(idSelector) {
 
 Board.prototype.getAttackPosition = function(y,x) {
   var index = parseInt(y.toString() + x.toString())
-  var count
-  this.count == 0 ? count = 0 : count --
-  var teamChar = this.getTeamChar(this.currentTurn[this.count])
-  console.log(this.currentTurn[this.count])
+  var char = this.currentTurn[this.count]
+  var teamChar = this.getTeamChar(char)
   var charDetect = this.getCharObjectByIndex(y,x)
-  if(teamChar == 1 && this.getTeamChar(charDetect) == 2) {
-    this.attackPosition.push(index)
-  } else if(teamChar == 2 && this.getTeamChar(charDetect) == 1) {
-    this.attackPosition.push(index)
+  if(teamChar == 1 && this.getTeamChar(charDetect) == 2) this.attackPosition.push(index)
+  else if(teamChar == 2 && this.getTeamChar(charDetect) == 1) this.attackPosition.push(index)
+  if(char == healer1 || char == healer2) {
+    if(teamChar == 1 && this.getTeamChar(charDetect) == 1) this.buddyPosition.push(index)
+    else if(teamChar == 2 && this.getTeamChar(charDetect) == 2) this.buddyPosition.push(index)
   }
 }
 
@@ -164,6 +173,13 @@ Board.prototype.renderAttackPos = function() {
     var char = $("#board div")[this.attackPosition[i]]
     $(char).addClass("attack-posible")
   }
+}
+
+Board.prototype.renderBuddyPos = function() {
+   for(var i=0; i<this.buddyPosition.length; i++) {
+    var char = $("#board div")[this.buddyPosition[i]]
+    $(char).addClass("heal-posible")
+  } 
 }
 
 Board.prototype.removeCharCurrentTurn = function(char) {

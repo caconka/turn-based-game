@@ -41,12 +41,18 @@ div#board {
   border-radius: 5px;
 }
 
+.character span {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+}
+
 .W1 {
   background: #F87F69;
 }
 
 .W2 {
-  background: #F87F69;
+  background: #B85E4D;
 }
 
 .Ar1 {
@@ -54,7 +60,7 @@ div#board {
 }
 
 .Ar2 {
-  background: #75C358;
+  background: #51843E;
 }
 
 .H1 {
@@ -62,7 +68,15 @@ div#board {
 }
 
 .H2 {
-  background: #3DD2BC;
+  background: #2F9F8E;
+}
+
+.attack-posible {
+  background: rgba(205, 94, 94, .2)
+}
+
+.heal-posible {
+  background: rgba(98, 211, 91, .4)
 }
 
 #restart {

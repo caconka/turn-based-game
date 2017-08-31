@@ -19,6 +19,11 @@ Soldier.prototype.receiveDamage = function(damage,y,x) {
   return this.isDead(this.health) ? this.team.removeChar(this,y,x) : this.health
 }
 
+Soldier.prototype.receiveHeal = function(heal) {
+  this.health += heal
+  console.log(this.health)
+}
+
 Soldier.prototype.isDead = function(health) {
   return health <= 0 ? true : false
 }
