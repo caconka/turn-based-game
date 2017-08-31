@@ -9,7 +9,7 @@ Army.prototype.insertSoldier = function(soldier1,soldier2,soldier3) {
 
 Army.prototype.turn = function() {
   var char = this.units[this.count]
-  this.count < (this.units.length - 1) ? this.count ++ : this.count = 0
+  this.count < (this.units.length -1) ? this.count ++ : this.count = 0
   char.canMove(char.posY, char.posX)
   return char
 }

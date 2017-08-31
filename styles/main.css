@@ -1,3 +1,11 @@
+section#global {
+  width: 38%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 div#turn {
   width: 3.7em;
   height: 3.2em;
@@ -6,11 +14,10 @@ div#turn {
 }
 
 div#container {
-  width: 38%;
+  width: 590px;
   display: inline-block;
   padding: .5em;
   perspective: 70em;
-  margin: 3em;
 }
 
 div#board {
@@ -41,10 +48,20 @@ div#board {
   border-radius: 5px;
 }
 
-.character span {
-  margin: 0;
+span {
+  margin: 2px;
   padding: 0;
   position: absolute;
+  color: #2D2D2D;
+}
+
+span.atk {
+  margin-top: 1.3em;
+  font-size: 0.8em;
+}
+
+span.current-turn {
+  margin-left: .3em;
 }
 
 .W1 {
@@ -52,7 +69,7 @@ div#board {
 }
 
 .W2 {
-  background: #B85E4D;
+  background: #9E5648;
 }
 
 .Ar1 {
@@ -60,7 +77,7 @@ div#board {
 }
 
 .Ar2 {
-  background: #51843E;
+  background: #4E7B3C;
 }
 
 .H1 {
@@ -68,7 +85,7 @@ div#board {
 }
 
 .H2 {
-  background: #2F9F8E;
+  background: #2D887A;
 }
 
 .attack-posible {
@@ -79,6 +96,18 @@ div#board {
   background: rgba(98, 211, 91, .4)
 }
 
+button {
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  background: #ccc;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 #restart {
   display: none;
+  margin-top: 250px;
 }

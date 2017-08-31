@@ -18,6 +18,7 @@ Board.prototype.start = function() {
   team2.insertSoldier(warrior2,archer2,healer2)  
   this.currentTurn.push(warrior1,archer1,healer1,warrior2,archer2,healer2)
   this.renderArea(); this.renderBoard(); this.events()
+  
 }
 
 Board.prototype.update = function() {
@@ -38,12 +39,12 @@ Board.prototype.renderBoard = function() {
   this.board.forEach(function(row, indY) {
     that.board[indY].forEach(function(col, indX) {
       switch (col) {
-        case 1: game.createDivCharacters(0,1,"W1"); break;
-        case 2: game.createDivCharacters(1,1,"Ar1"); break;
-        case 3: game.createDivCharacters(2,1,"H1"); break;
-        case 4: game.createDivCharacters(0,2,"W2"); break;
-        case 5: game.createDivCharacters(1,2,"Ar2"); break;
-        case 6: game.createDivCharacters(2,2,"H2"); break;
+        case 1: game.createDivCharacters(0,1,"W1",warrior1); break;
+        case 2: game.createDivCharacters(1,1,"Ar1",archer1); break;
+        case 3: game.createDivCharacters(2,1,"H1",healer1); break;
+        case 4: game.createDivCharacters(0,2,"W2",warrior2); break;
+        case 5: game.createDivCharacters(1,2,"Ar2",archer2); break;
+        case 6: game.createDivCharacters(2,2,"H2",healer2); break;
         case 8: 
           var area = $("<div>").attr("class", "box-position area")
           $("#board").append($(area)[0])
@@ -57,12 +58,12 @@ Board.prototype.renderBoard = function() {
   })
 }
 
-Board.prototype.createDivCharacters = function(indexCharacter, player, name) {
+Board.prototype.createDivCharacters = function(indexCharacter, player, name, object) {
   var char = $("<div>").attr("class", "character " + name)
   if(player == 1) 
-    $("#board").append($($(char)[0]).attr("id", name))
+    $("#board").append($($(char)[0]).attr("id", name).append($("<span>").text(object.health)))
   else if(player == 2) 
-    $("#board").append($($(char)[0]).attr("id", name))
+    $("#board").append($($(char)[0]).attr("id", name).append($("<span>").text(object.health)))
 }
 
 Board.prototype.events = function() {
@@ -103,10 +104,11 @@ Board.prototype.events = function() {
 
 Board.prototype.renderCurrentTurn = function() {
   $("#turn").children().remove()
-  this.count < (this.currentTurn.length - 1) ? this.count ++ : this.count = 0
+  this.count < (this.currentTurn.length -1) ? this.count ++ : this.count = 0
   var char = this.currentTurn[this.count]
   var turn = $("<div>").attr("class", "character " + char.name)
-  $("#turn").append($(turn)[0])
+  $("#turn").append($($(turn)[0]).append($("<span>").text(char.health)).append($("<span>").addClass("atk").text(char.minAttack+"-"+char.maxAttack)))
+  $("#turn").append($($("<span>").addClass("current-turn").text("Player: " + this.getTeamChar(char))))
 }
 
 Board.prototype.removePosibilityPositions = function() {
