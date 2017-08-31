@@ -1,4 +1,4 @@
-function Soldier(name, health, minAttack, maxAttack, y, x, area) {
+function Soldier(name, health, minAttack, maxAttack, y, x, area, team) {
   this.name = name 
   this.health = health
   this.minAttack = minAttack
@@ -6,16 +6,16 @@ function Soldier(name, health, minAttack, maxAttack, y, x, area) {
   this.posX = x
   this.posY = y
   this.area = area
+  this.team = team
 }
 
 Soldier.prototype.attack = function() {
   return parseInt(Math.random() * (this.maxAttack - this.minAttack + 1) + this.minAttack)
 }
 
-Soldier.prototype.receiveDamage = function(damage) {
+Soldier.prototype.receiveDamage = function(damage,y,x) {
   this.health -= damage
-  return this.isDead(this.health) ? game.removeChar(this.name) : this.health
-
+  return this.isDead(this.health) ? this.team.removeChar(this,y,x) : this.health
 }
 
 Soldier.prototype.isDead = function(health) {
@@ -23,15 +23,15 @@ Soldier.prototype.isDead = function(health) {
 }
 // ME QUEDO AQUÍ //
 Soldier.prototype.canMove = function(y1,x1) {
-  for(var i=0; i<=this.area; i++) {
-    if(y1>=i) game.board[y1-i][x1] == 0 ? game.board[y1-i][x1] = 8 : game.getIdChar(y1-i,x1)
-    if(y1+i<6) if(game.board[y1+i][x1] == 0) game.board[y1+i][x1] = 8
-    if(x1>=i) if(game.board[y1][x1-i] == 0) game.board[y1][x1-i] = 8
-    if(x1+i<10) if(game.board[y1][x1+i] == 0) game.board[y1][x1+i] = 8
-    if(y1>=i && x1>=i) if(game.board[y1-i][x1-i] == 0) game.board[y1-i][x1-i] = 8
-    if(y1+i<6 && x1+i<10) if(game.board[y1+i][x1+i] == 0) game.board[y1+i][x1+i] = 8
-    if(y1>=i && x1+i<10) if(game.board[y1-i][x1+i] == 0) game.board[y1-i][x1+i] = 8
-    if(x1>=i && y1+i<6) if(game.board[y1+i][x1-i] == 0) game.board[y1+i][x1-i] = 8
+  for(var i=1; i<=this.area; i++) {
+    if(y1>=i) game.board[y1-i][x1] == 0 ? game.board[y1-i][x1] = 8 : game.getAttackPosition(y1-i,x1)
+    if(y1+i<6) game.board[y1+i][x1] == 0 ? game.board[y1+i][x1] = 8 : game.getAttackPosition(y1+i,x1)
+    if(x1>=i) game.board[y1][x1-i] == 0 ? game.board[y1][x1-i] = 8 : game.getAttackPosition(y1,x1-i)
+    if(x1+i<10) game.board[y1][x1+i] == 0 ? game.board[y1][x1+i] = 8 : game.getAttackPosition(y1,x1+i)
+    if(y1>=i && x1>=i) game.board[y1-i][x1-i] == 0 ? game.board[y1-i][x1-i] = 8 : game.getAttackPosition(y1-i,x1-i)
+    if(y1+i<6 && x1+i<10) game.board[y1+i][x1+i] == 0 ? game.board[y1+i][x1+i] = 8 : game.getAttackPosition(y1+i,x1+i)
+    if(y1>=i && x1+i<10) game.board[y1-i][x1+i] == 0 ? game.board[y1-i][x1+i] = 8 : game.getAttackPosition(y1-i,x1+i)
+    if(x1>=i && y1+i<6) game.board[y1+i][x1-i] == 0 ? game.board[y1+i][x1-i] = 8 : game.getAttackPosition(y1+i,x1-i)
   }
 }
 

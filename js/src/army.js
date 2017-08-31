@@ -18,3 +18,10 @@ Army.prototype.turn = function() {
   char.canMove(char.posY, char.posX)
   return char
 }
+
+Army.prototype.removeChar = function(char, y, x) {
+  var index = this.units.indexOf(char)
+  if(index > -1) this.units.splice(index, 1)
+  game.removeCharCurrentTurn(char)
+  game.removeCharMatrix(y,x)
+}

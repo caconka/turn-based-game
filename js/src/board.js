@@ -1,8 +1,8 @@
 function Board() {
   this.board = [
-    [8,8,0,0,0,0,0,0,0,0],
-    [1,8,0,0,0,0,0,0,0,4],
-    [8,8,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [1,0,0,0,0,0,0,0,0,4],
+    [0,0,0,0,0,0,0,0,0,0],
     [2,0,0,0,0,0,0,0,0,5],
     [3,0,0,0,0,0,0,0,0,6],
     [0,0,0,0,0,0,0,0,0,0]
@@ -15,20 +15,17 @@ Board.prototype.start = function() {
   team1.insertSoldier(warrior1,archer1,healer1)
   team2.insertSoldier(warrior2,archer2,healer2)  
   this.currentTurn.push(warrior1,archer1,healer1,warrior2,archer2,healer2)
-  this.update(); this.renderArea()
+  this.renderArea(); this.renderBoard(); this.events()
 }
 
 Board.prototype.update = function() {
   $("#board").children().remove()
-  this.renderBoard(); this.events();
+  this.renderBoard(); this.events()
 }
 
-Board.prototype.renderCurrentTurn = function() {
-  $("#turn").children().remove()
-  this.count < 5 ? this.count ++ : this.count = 0
-  var char = this.currentTurn[this.count]
-  var turn = $("<div>").attr("class", "character " + char.name)
-  $("#turn").append($(turn)[0])
+Board.prototype.renderArea = function() {
+  var char = game.currentTurn[game.count]
+  char==warrior1 || char==archer1 || char==healer1 ? team1.turn() : team2.turn()
 }
 
 Board.prototype.renderBoard = function() {
@@ -36,12 +33,12 @@ Board.prototype.renderBoard = function() {
   this.board.forEach(function(row, indY) {
     that.board[indY].forEach(function(col, indX) {
       switch (col) {
-        case 1: game.createDivCharacters(0,1,0); break;
-        case 2: game.createDivCharacters(1,1,1); break;
-        case 3: game.createDivCharacters(2,1,2); break;
-        case 4: game.createDivCharacters(0,2,3); break;
-        case 5: game.createDivCharacters(1,2,4); break;
-        case 6: game.createDivCharacters(2,2,5); break;
+        case 1: game.createDivCharacters(0,1,"W1"); break;
+        case 2: game.createDivCharacters(1,1,"Ar1"); break;
+        case 3: game.createDivCharacters(2,1,"H1"); break;
+        case 4: game.createDivCharacters(0,2,"W2"); break;
+        case 5: game.createDivCharacters(1,2,"Ar2"); break;
+        case 6: game.createDivCharacters(2,2,"H2"); break;
         case 8: 
           var area = $("<div>").attr("class", "box-position area")
           $("#board").append($(area)[0])
@@ -55,23 +52,12 @@ Board.prototype.renderBoard = function() {
   })
 }
 
-Board.prototype.removePosibilityPositions = function() {
-  var that = this
-  this.board.forEach(function(row, indY) {
-    that.board[indY].forEach(function(col, indX) {
-      if(col == 8) {
-        that.board[indY][indX] = 0
-      }
-    })
-  })
-}
-
-Board.prototype.createDivCharacters = function(indexCharacter, player, index) {
-  var char = $("<div>").attr("class", "character " + this.currentTurn[index].name)
+Board.prototype.createDivCharacters = function(indexCharacter, player, name) {
+  var char = $("<div>").attr("class", "character " + name)
   if(player == 1) 
-    $("#board").append($($(char)[0]).attr("id", team1.units[indexCharacter].name))
+    $("#board").append($($(char)[0]).attr("id", name))
   else if(player == 2) 
-    $("#board").append($($(char)[0]).attr("id", team1.units[indexCharacter].name))
+    $("#board").append($($(char)[0]).attr("id", name))
 }
 
 Board.prototype.events = function() {
@@ -88,17 +74,70 @@ Board.prototype.events = function() {
     game.removePosibilityPositions()
     game.renderCurrentTurn()
     game.renderArea()
-    game.update()
+    return game.update()
   })
 
-  $(".attack-possible").on("click", function() {
-
+  $(".character").on("click", function() {
+    var position = $("#board div").index($(this))
+    var y = parseInt(position.toString().split("")[0])
+    var x = parseInt(position.toString().split("")[1])
+    if(moveTo.toString().length == 1) {
+      x = y
+      y = 0
+    }  
+    var idSelector = $(this).attr("id")
+    var char = game.getCharObject(idSelector)
+    char.receiveDamage(game.currentTurn[game.count].attack(), y, x)
+    console.log(char.health)
+    return game.update()
   })
 }
 
-Board.prototype.renderArea = function() {
-  var char = game.currentTurn[game.count]
-  char==warrior1 || char==archer1 || char==healer1 ? team1.turn() : team2.turn()
+Board.prototype.renderCurrentTurn = function() {
+  $("#turn").children().remove()
+  this.count < 5 ? this.count ++ : this.count = 0
+  var char = this.currentTurn[this.count]
+  var turn = $("<div>").attr("class", "character " + char.name)
+  $("#turn").append($(turn)[0])
+}
+
+Board.prototype.removePosibilityPositions = function() {
+  var that = this
+  this.board.forEach(function(row, indY) {
+    that.board[indY].forEach(function(col, indX) {
+      if(col == 8) {
+        that.board[indY][indX] = 0
+      }
+    })
+  })
+}
+
+Board.prototype.getCharObject = function(idSelector) {
+  var char
+  switch (idSelector) {
+    case "W1": char = warrior1; break;
+    case "Ar1": char = archer1; break;
+    case "H1": char = healer1; break;
+    case "W2": char = warrior2; break;
+    case "Ar2": char = archer2; break;
+    case "H2": char = healer2; break;
+  }
+  return char
+}
+
+Board.prototype.getAttackPosition = function(y,x) {
+  var index = y.toString() + x.toString()
+
+  console.log(index)
+}
+
+Board.prototype.removeCharCurrentTurn = function(char) {
+  var index = this.currentTurn.indexOf(char)
+  if(index > -1) this.currentTurn.splice(index, 1)
+}
+
+Board.prototype.removeCharMatrix = function(y,x) {
+  this.board[y][x] = 0
 }
 
 Board.prototype.win = function() {
