@@ -10,9 +10,7 @@ var healer2 = new Soldier("H2", 30, 9, 12, 4, 9, 1, team2)
 
 $(document).ready(function() {
   $("#start").on("click", function() {
-    $("#start").hide()
-    $("#restart").show()
-    $("#turn").show()
+    $("#start").hide(); $("#battle").hide(); $("#restart").show(); $("#turn").show()
     game.start()
   })
 })

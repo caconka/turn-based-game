@@ -1,3 +1,10 @@
+div#battle {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -40%)
+}
+
 section#global {
   width: 38%;
   position: absolute;
@@ -93,18 +100,26 @@ span.current-turn {
 }
 
 .heal-posible {
-  background: rgba(98, 211, 91, .4)
+  background: rgba(107, 253, 98, .3)
 }
 
 button {
-  border: none;
+  border: 1px solid #000;
   border-radius: 5px;
   padding: 10px 20px;
-  background: #ccc;
+  background: #fff;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+button:active {
+  margin-top: .3em;
+}
+
+button:focus {
+  outline: none;
 }
 
 #restart {

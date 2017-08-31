@@ -31,6 +31,7 @@ Board.prototype.update = function() {
 
 Board.prototype.renderArea = function() {
   var char = game.currentTurn[game.count]
+  if(char == undefined) { char = game.currentTurn[0] }
   char==warrior1 || char==archer1 || char==healer1 ? team1.turn() : team2.turn()
 }
 
@@ -106,6 +107,7 @@ Board.prototype.renderCurrentTurn = function() {
   $("#turn").children().remove()
   this.count < (this.currentTurn.length -1) ? this.count ++ : this.count = 0
   var char = this.currentTurn[this.count]
+  if(char == undefined) { char = this.currentTurn[this.count] }
   var turn = $("<div>").attr("class", "character " + char.name)
   $("#turn").append($($(turn)[0]).append($("<span>").text(char.health)).append($("<span>").addClass("atk").text(char.minAttack+"-"+char.maxAttack)))
   $("#turn").append($($("<span>").addClass("current-turn").text("Player: " + this.getTeamChar(char))))
@@ -199,6 +201,7 @@ Board.prototype.win = function() {
 }
 
 Board.prototype.finish = function() {
-  alert("finish!!")
+  if(team1.units.length <= 0) alert("Player 2 wins!!")
+  if(team2.units.length <= 0) alert("Player 1 wins!!")
   location.reload()
 }
