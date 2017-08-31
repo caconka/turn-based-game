@@ -127,7 +127,36 @@ Board.prototype.getCharObject = function(idSelector) {
 
 Board.prototype.getAttackPosition = function(y,x) {
   var index = parseInt(y.toString() + x.toString())
-  this.attackPosition.push(index)
+  var count
+  this.count == 0 ? count = 0 : count --
+  var teamChar = this.getTeamChar(this.currentTurn[this.count])
+  console.log(this.currentTurn[this.count])
+  var charDetect = this.getCharObjectByIndex(y,x)
+  if(teamChar == 1 && this.getTeamChar(charDetect) == 2) {
+    this.attackPosition.push(index)
+  } else if(teamChar == 2 && this.getTeamChar(charDetect) == 1) {
+    this.attackPosition.push(index)
+  }
+}
+
+Board.prototype.getCharObjectByIndex = function(y,x) {
+  switch (this.board[y][x]) {
+    case 1: return warrior1; break;
+    case 2: return archer1; break;
+    case 3: return healer1; break;
+    case 4: return warrior2; break;
+    case 5: return archer2; break;
+    case 6: return healer2; break;
+  }
+}
+
+Board.prototype.getTeamChar = function(char) {
+  switch (char) {
+    case warrior1: return 1; break;
+    case archer1: return 1; break;
+    case healer1: return 1; break;
+    default: return 2; break;
+  }
 }
 
 Board.prototype.renderAttackPos = function() {
