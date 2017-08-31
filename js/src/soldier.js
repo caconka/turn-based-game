@@ -15,13 +15,14 @@ Soldier.prototype.attack = function() {
 
 Soldier.prototype.receiveDamage = function(damage,y,x) {
   this.health -= damage
+  console.log(this.health)
   return this.isDead(this.health) ? this.team.removeChar(this,y,x) : this.health
 }
 
 Soldier.prototype.isDead = function(health) {
   return health <= 0 ? true : false
 }
-// ME QUEDO AQUÍ //
+
 Soldier.prototype.canMove = function(y1,x1) {
   for(var i=1; i<=this.area; i++) {
     if(y1>=i) game.board[y1-i][x1] == 0 ? game.board[y1-i][x1] = 8 : game.getAttackPosition(y1-i,x1)

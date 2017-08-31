@@ -9,6 +9,7 @@ function Board() {
   ]
   this.currentTurn = []
   this.count = 0
+  this.attackPosition = []
 }
 
 Board.prototype.start = function() {
@@ -20,7 +21,9 @@ Board.prototype.start = function() {
 
 Board.prototype.update = function() {
   $("#board").children().remove()
-  this.renderBoard(); this.events()
+  this.removePosibilityPositions()
+  this.renderCurrentTurn(); this.renderArea()
+  this.renderBoard(); this.renderAttackPos(); this.events()
 }
 
 Board.prototype.renderArea = function() {
@@ -71,13 +74,10 @@ Board.prototype.events = function() {
     }
     var char = game.currentTurn[game.count]
     char.move(char.posY,char.posX,y2,x2)
-    game.removePosibilityPositions()
-    game.renderCurrentTurn()
-    game.renderArea()
     return game.update()
   })
 
-  $(".character").on("click", function() {
+  $(".attack-posible").on("click", function() {
     var position = $("#board div").index($(this))
     var y = parseInt(position.toString().split("")[0])
     var x = parseInt(position.toString().split("")[1])
@@ -88,14 +88,13 @@ Board.prototype.events = function() {
     var idSelector = $(this).attr("id")
     var char = game.getCharObject(idSelector)
     char.receiveDamage(game.currentTurn[game.count].attack(), y, x)
-    console.log(char.health)
-    return game.update()
+    return game.win() ? game.finish() : game.update()
   })
 }
 
 Board.prototype.renderCurrentTurn = function() {
   $("#turn").children().remove()
-  this.count < 5 ? this.count ++ : this.count = 0
+  this.count < (this.currentTurn.length - 1) ? this.count ++ : this.count = 0
   var char = this.currentTurn[this.count]
   var turn = $("<div>").attr("class", "character " + char.name)
   $("#turn").append($(turn)[0])
@@ -110,6 +109,7 @@ Board.prototype.removePosibilityPositions = function() {
       }
     })
   })
+  this.attackPosition = []
 }
 
 Board.prototype.getCharObject = function(idSelector) {
@@ -126,9 +126,15 @@ Board.prototype.getCharObject = function(idSelector) {
 }
 
 Board.prototype.getAttackPosition = function(y,x) {
-  var index = y.toString() + x.toString()
+  var index = parseInt(y.toString() + x.toString())
+  this.attackPosition.push(index)
+}
 
-  console.log(index)
+Board.prototype.renderAttackPos = function() {
+  for(var i=0; i<this.attackPosition.length; i++) {
+    var char = $("#board div")[this.attackPosition[i]]
+    $(char).addClass("attack-posible")
+  }
 }
 
 Board.prototype.removeCharCurrentTurn = function(char) {
@@ -141,6 +147,11 @@ Board.prototype.removeCharMatrix = function(y,x) {
 }
 
 Board.prototype.win = function() {
-  if(team1.units.length <= 0) console.log("player 2 wins")
-  else if(team2.units.length <= 0) console.log("player 1 wins")
+  if(team1.units.length <= 0) return true
+  if(team2.units.length <= 0) return true
+}
+
+Board.prototype.finish = function() {
+  alert("finish!!")
+  location.reload()
 }
