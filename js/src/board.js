@@ -16,7 +16,7 @@ function Board() {
 Board.prototype.start = function() {
   team1.insertSoldier(warrior1,archer1,healer1)
   team2.insertSoldier(warrior2,archer2,healer2)  
-  this.currentTurn.push(warrior1,archer1,healer1,warrior2,archer2,healer2)
+  this.currentTurn.push(warrior1,warrior2,archer1,archer2,healer1,healer2)
   this.renderArea(); this.renderBoard(); this.events()
   
 }
@@ -30,9 +30,9 @@ Board.prototype.update = function() {
 }
 
 Board.prototype.renderArea = function() {
-  var char = game.currentTurn[game.count]
-  if(char == undefined) { char = game.currentTurn[0] }
-  char==warrior1 || char==archer1 || char==healer1 ? team1.turn() : team2.turn()
+  var char = this.currentTurn[this.count]
+  if(char == undefined) { char = this.currentTurn[0] }
+  char==warrior1 || char==archer1 || char==healer1 ? team1.turn(char) : team2.turn(char)
 }
 
 Board.prototype.renderBoard = function() {
@@ -107,7 +107,6 @@ Board.prototype.renderCurrentTurn = function() {
   $("#turn").children().remove()
   this.count < (this.currentTurn.length -1) ? this.count ++ : this.count = 0
   var char = this.currentTurn[this.count]
-  if(char == undefined) { char = this.currentTurn[this.count] }
   var turn = $("<div>").attr("class", "character " + char.name)
   $("#turn").append($($(turn)[0]).append($("<span>").text(char.health)).append($("<span>").addClass("atk").text(char.minAttack+"-"+char.maxAttack)))
   $("#turn").append($($("<span>").addClass("current-turn").text("Player: " + this.getTeamChar(char))))

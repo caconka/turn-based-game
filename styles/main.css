@@ -1,16 +1,16 @@
 div#battle {
   position: absolute;
-  top: 40%;
+  top: 24%;
   left: 50%;
-  transform: translate(-50%, -40%)
+  transform: translate(-50%, -24%)
 }
 
 section#global {
-  width: 38%;
+  width: 50%;
   position: absolute;
-  top: 50%;
+  top: 30%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -30%);
 }
 
 div#turn {
@@ -21,23 +21,21 @@ div#turn {
 }
 
 div#container {
-  width: 590px;
+  margin-top: 5em;
+  width: 750px;
   display: inline-block;
   padding: .5em;
   perspective: 70em;
 }
 
-div#board {
-  transform: rotateX(45deg);
-}
-
 #board .box-position {
-  width: 3em;
-  height: 3em;
+  width: 4em;
+  height: 4em;
   margin-left: .3em;
-  background: #ccc;
+  /* background: #ccc; */
   display: inline-block;
-  border: 1px solid #888;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
   border-radius: 5px;
 }
 
@@ -47,10 +45,11 @@ div#board {
 }
 
 .character {
-  width: 3em;
-  height: 3em;
+  width: 4em;
+  height: 4em;
   margin-left: .3em;
   display: inline-block;
+  box-sizing: border-box;
   border: 1px solid #fff;
   border-radius: 5px;
 }
@@ -62,45 +61,57 @@ span {
   color: #2D2D2D;
 }
 
-span.atk {
-  margin-top: 1.3em;
+#turn span {
+  margin-left: 4em;
+}
+
+#turn span.atk {
+  margin: 1.3em 0 0 5em;
   font-size: 0.8em;
 }
 
-span.current-turn {
+#turn span.current-turn {
   margin-left: .3em;
 }
 
 .W1 {
-  background: #F87F69;
+  background-image: url("../img/warrior1.png");
+  background-size: contain;
 }
 
 .W2 {
-  background: #9E5648;
+  background-image: url("../img/warrior2.png");
+  background-size: contain;
 }
 
 .Ar1 {
-  background: #75C358;
+  background-image: url("../img/archer1.png");
+  background-size: contain;
 }
 
 .Ar2 {
-  background: #4E7B3C;
+  background-image: url("../img/archer2.png");
+  background-size: contain;
 }
 
 .H1 {
-  background: #3DD2BC;
+  background-image: url("../img/healer1.png");
+  background-size: contain;
 }
 
 .H2 {
-  background: #2D887A;
+  background-image: url("../img/healer2.png");
+  background-size: contain;
 }
 
 .attack-posible {
-  background: rgba(205, 94, 94, .2)
+  box-sizing: border-box;
+  border: 2px solid #DA6F5A;
 }
 
 .heal-posible {
-  background: rgba(107, 253, 98, .3)
+  box-sizing: border-box;
+  border: 2px solid #6c0;
 }
 
 button {
@@ -124,5 +135,5 @@ button:focus {
 
 #restart {
   display: none;
-  margin-top: 250px;
+  margin-top: 350px;
 }
