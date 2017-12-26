@@ -26,6 +26,7 @@ div#container {
   display: inline-block;
   padding: .5em;
   perspective: 70em;
+  margin: 0 auto;
 }
 
 #board .box-position {
@@ -135,5 +136,5 @@ button:focus {
 
 #restart {
   display: none;
-  margin-top: 350px;
+  margin: 350px auto 0 auto;
 }
