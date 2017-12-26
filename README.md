@@ -1,4 +1,4 @@
-Find proyect at [Battle Turn](https://caconka.github.io/turn-based-game/)
+Find project at [Battle Turn](https://caconka.github.io/turn-based-game/)
 
 # Battle Turn
 
